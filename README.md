@@ -30,10 +30,11 @@ Minimal usage:
 ```rust
 use atrius::{
     assert_file_invariants, DeviceFileState, DeviceFileStateKind, EncryptionInfo, FileRecord,
-    VersionRecord,
+    FileEventSink, FileMonitor, VersionRecord,
 };
 use chrono::Utc;
 use ulid::Ulid;
+use std::sync::Arc;
 
 fn main() {
     let file_id = Ulid::new();
@@ -69,6 +70,17 @@ fn main() {
     };
 
     assert_file_invariants(&record).expect("record invariants hold");
+
+    // File monitoring: react to edits/saves/renames and trigger sync.
+    struct Sink;
+    impl FileEventSink for Sink {
+        fn handle(&self, event: atrius::FileEvent) {
+            println!("change: {:?} at {:?}", event.kind, event.path);
+            // trigger sync here
+        }
+    }
+    let _monitor = FileMonitor::watch(vec!["/tmp/a.txt".into()], Arc::new(Sink))
+        .expect("monitor start");
 }
 ```
 
