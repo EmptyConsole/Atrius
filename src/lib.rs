@@ -7,7 +7,11 @@
 pub mod model;
 pub mod local_store;
 pub mod file_monitor;
+pub mod identity;
+pub mod file_transfer;
 
 pub use model::*;
 pub use local_store::*;
 pub use file_monitor::*;
+pub use identity::*;
+pub use file_transfer::*;

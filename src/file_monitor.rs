@@ -5,7 +5,6 @@ use std::{
     time::SystemTime,
 };
 
-use chrono::Utc;
 use notify::event::{CreateKind, MetadataKind, ModifyKind, RemoveKind, RenameMode};
 use notify::{Config, Event, EventKind, RecommendedWatcher, RecursiveMode, Watcher};
 use thiserror::Error;
